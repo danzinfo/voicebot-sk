@@ -1,0 +1,10 @@
+audio_0.wav|check my order status
+audio_1.wav|i want to cancel my order
+audio_2.wav|where is my refund
+audio_3.wav|my payment failed
+audio_4.wav|hello
+audio_5.wav|track my delivery
+audio_6.wav|i have a complaint
+audio_7.wav|tell me about the product
+audio_8.wav|my subscription is not working
+audio_9.wav|i want to update my account
