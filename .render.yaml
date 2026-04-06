@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: voicebot
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: starter      # Render's free/low-cost plan with 512MB RAM
+    autoDeploy: true
+    envVars:
+      - key: WHISPER_MODEL
+        value: tiny
+      - key: INTENT_MODEL_PATH
+        value: models/intent_model.pkl
+      - key: TTS_LANG
+        value: en
+      - key: TTS_SLOW
+        value: false
+      - key: MAX_FILE_SIZE_MB
+        value: 5
+      - key: PORT
+        value: 8000
+    # Optional: persistent storage for generated audio
+    persistentDisks:
+      - name: audio
+        mountPath: /app/outputs/audio

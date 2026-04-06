@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+models/intent_model/
+
+# Environment variables
+.env
+.env.*
+
+# Build artifacts
+dist/
+build/
+
+# Node
+node_modules/
+
+# Logs & outputs
+*.log
+outputs/
+
+# Caches
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Data / large files
+*.db
+*.sqlite3
+*.zip
+*.tar.gz
+*.csv
+*.parquet
+*.mp4
