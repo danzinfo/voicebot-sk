@@ -28,11 +28,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Create audio folder
+# Create folders
 os.makedirs("outputs/audio", exist_ok=True)
-os.makedirs("templates", exist_ok=True)  # Frontend Templates folder
+os.makedirs("templates", exist_ok=True)
 
-# Serve audio files
+# Serve static files
 app.mount("/audio", StaticFiles(directory="outputs/audio"), name="audio")
 app.mount("/static", StaticFiles(directory="templates/static"), name="static")
 
@@ -53,20 +53,18 @@ def health():
 
 @app.post("/voicebot")
 async def voicebot(file: UploadFile = File(...)):
-
     # Validate file type
     if not file.content_type.startswith("audio/"):
         return JSONResponse({"error": "Only audio files are allowed"}, status_code=400)
 
     # Validate file size
-    file.file.seek(0, 2)  # move to end
+    file.file.seek(0, 2)
     file_size_mb = file.file.tell() / (1024 * 1024)
-    file.file.seek(0)     # reset pointer
+    file.file.seek(0)
 
     if file_size_mb > MAX_FILE_SIZE_MB:
         return JSONResponse({"error": "File too large"}, status_code=400)
 
-    file.file.seek(0)  # reset pointer
     try:
         # ASR
         text = transcribe_audio(file)
@@ -98,10 +96,10 @@ async def voicebot(file: UploadFile = File(...)):
 
     except Exception as e:
         logger.error(f"Voicebot error: {str(e)}")
-        return JSONResponse({"error": "Internal server error"}, status_code=500)
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 # -----------------------------
-# Individual pipeline endpoints
+# Individual endpoints
 # -----------------------------
 @app.post("/transcribe")
 async def transcribe(file: UploadFile = File(...)):
@@ -110,7 +108,7 @@ async def transcribe(file: UploadFile = File(...)):
         return {"transcript": text}
     except Exception as e:
         logger.error(f"Transcribe error: {str(e)}")
-        return JSONResponse({"error": "ASR failed"}, status_code=500)
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 @app.post("/predict-intent")
 async def predict(text: str):
@@ -119,7 +117,7 @@ async def predict(text: str):
         return {"intent": intent, "confidence": confidence}
     except Exception as e:
         logger.error(f"Intent error: {str(e)}")
-        return JSONResponse({"error": "Intent prediction failed"}, status_code=500)
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 @app.post("/generate-response")
 async def respond(intent: str):
@@ -128,7 +126,7 @@ async def respond(intent: str):
         return {"response": response}
     except Exception as e:
         logger.error(f"Response error: {str(e)}")
-        return JSONResponse({"error": "Response generation failed"}, status_code=500)
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 @app.post("/synthesize")
 async def synthesize(text: str):
@@ -137,7 +135,7 @@ async def synthesize(text: str):
         return {"audio_path": audio_path}
     except Exception as e:
         logger.error(f"TTS error: {str(e)}")
-        return JSONResponse({"error": "TTS failed"}, status_code=500)
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 # -----------------------------
 # Run server
@@ -145,4 +143,4 @@ async def synthesize(text: str):
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=port, workers=1)
