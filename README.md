@@ -40,40 +40,34 @@ Audio Input -> ASR (Vosk) -> Text -> Intent Detection -> Response Generation -> 
 
 1. Clone the repository:
 
-```bash
 git clone https://github.com/danzinfo/voicebot-sk.git
 cd voicebot-sk
-```
+
 
 2. Create a virtual environment:
 
-```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
-```
+
 
 3. Install dependencies:
 
-```bash
 pip install -r requirements.txt
-```
+
 
 4. Set environment variables:
 
-```bash
 cp .env.example .env
 # Edit .env if needed
-```
+
 
 5. Download the Vosk ASR model:
 
-```bash
 # Example: small English model
 mkdir -p models
 # Download from https://alphacephei.com/vosk/models
 # Unzip into models/vosk-model-small-en-us-0.15
-```
 
 ---
 
@@ -81,9 +75,7 @@ mkdir -p models
 
 ### Run locally
 
-```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
 
 ### Access
 
@@ -107,9 +99,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 **Example: `/voicebot`** (using `curl`):
 
-```bash
 curl -X POST "http://localhost:8000/voicebot" -F "file=@your_audio.wav"
-```
 
 ## Intent Model Training
 
@@ -117,33 +107,24 @@ The intent detection model is a **sklearn pipeline** with TF-IDF features and lo
 
 Train your own model:
 
-```bash
 python train_intent_model.py
-```
 
 * Input dataset: `data/train_expanded_1000.csv`
 * Output model: `models/intent_model.pkl`
-
----
 
 ## Deployment
 
 ### Docker
 
-```bash
 docker build -t voicebot .
 docker run -p 8000:8000 voicebot
-```
 
 ### Render
 
 Configured via `.render.yaml`. The service will automatically deploy with persistent storage for audio outputs.
 
----
-
 ## Folder Structure
 
-```
 .
 ├── app/
 │   ├── main.py
