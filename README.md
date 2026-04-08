@@ -18,9 +18,7 @@ This project demonstrates a complete pipeline for building a conversational voic
 
 ## Architecture
 
-```
 Audio Input -> ASR (Vosk) -> Text -> Intent Detection -> Response Generation -> TTS (gTTS) -> Audio Output
-```
 
 * **ASR Service**: Transcribes audio files into text (`app/services/asr_service.py`).
 * **Intent Service**: Predicts intent using a trained sklearn pipeline (`app/services/intent_service.py`).
