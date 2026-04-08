@@ -59,16 +59,17 @@ pip install -r requirements.txt
 4. Set environment variables:
 
 cp .env.example .env
-# Edit .env if needed
+**# Edit .env if needed**
 
 
 5. Download the Vosk ASR model:
 
-# Example: small English model
+**# Example: small English model**
 mkdir -p models
+```
 # Download from https://alphacephei.com/vosk/models
 # Unzip into models/vosk-model-small-en-us-0.15
-
+```
 ---
 
 ## Usage
@@ -124,7 +125,7 @@ docker run -p 8000:8000 voicebot
 Configured via `.render.yaml`. The service will automatically deploy with persistent storage for audio outputs.
 
 ## Folder Structure
-
+```
 .
 ├── app/
 │   ├── main.py
@@ -148,7 +149,6 @@ Configured via `.render.yaml`. The service will automatically deploy with persis
 ```
 
 ## License
-
 This project is licensed under the **MIT License**.
 
 Project Live Link:
